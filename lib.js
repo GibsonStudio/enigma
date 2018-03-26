@@ -5,9 +5,26 @@ var rotors = [];
 var reflector = false;
 
 document.addEventListener('mouseup', function (e) { resetKeyPressed(e); } );
+document.addEventListener('keydown', function (e) { eKeyDown(e); } );
+document.addEventListener('keyup', function (e) { resetKeyPressed(); } );
+
 
 iniKeys();
 iniRotors();
+
+
+
+
+function eKeyDown (e)
+{
+  var myKey = e.key.toUpperCase();
+  var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if (alphabet.indexOf(myKey) >= 0) {
+    var id = 'key' + myKey;
+    keyPressed(id);
+  }
+}
+
 
 function writeKeys ()
 {
