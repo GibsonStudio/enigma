@@ -16,11 +16,19 @@
 
   <div id="page">
 
-    <div id="lights"><script> writeLights(); </script></div> <!-- #lights -->
-    <div id="keys"><script> writeKeys(); </script></div> <!-- #keys -->
+    <div id="rotors">
+      <input id="rotorL" type="number" value="0" min="0" max="25" onchange="setRotor(this);" />
+      <input id="rotorM" type="number" value="0" min="0" max="25" onchange="setRotor(this);" />
+      <input id="rotorR" type="number" value="0" min="0" max="25" onchange="setRotor(this);" />
+    </div> <!-- #rotors -->
+
+    <div id="lights" class="no-select"><script> writeLights(); </script></div> <!-- #lights -->
+    <div id="keys" class="no-select"><script> writeKeys(); </script></div> <!-- #keys -->
+    <div id="output"></div> <!-- #output -->
 
   </div> <!-- #page -->
 
+  <script>iniScreen();</script>
 </body>
 
 

@@ -1,9 +1,7 @@
 
 var keys = [];
 var keyDown = false;
-var rotorR = false;
-var rotorM = false;
-var rotorL = false;
+var rotors = [];
 var reflector = false;
 
 document.addEventListener('mouseup', function (e) { resetKeyPressed(e); } );
@@ -46,7 +44,9 @@ function keyPressed (keyID)
   keyDown = getKeyById(keyID);
   clickRotors();
   var outputLetter = encodeLetter(keyDown.letter);
+  writeOutput(outputLetter);
   $('#light' + outputLetter).addClass('lightON');
+  $('#' + keyID).addClass('keyDown');
 }
 
 
@@ -55,6 +55,7 @@ function resetKeyPressed ()
 {
   if (keyDown) {
     $('.light').removeClass('lightON');
+    $('.key').removeClass('keyDown');
     keyDown = false;
   }
 }
@@ -72,22 +73,42 @@ function getKeyById (keyID)
 
 
 
+function writeOutput (l)
+{
+  var html = $('#output').html();
+  if (html.length == 5 || html.length % 5 == 0) {
+    html += ' ';
+  }
+  html += l;
+  $('#output').html(html);
+}
+
+
+
 
 function clickRotors ()
 {
+  var click = rotors[0].clickPosition();
+  if (click) {
+    click = rotors[1].clickPosition();
+  }
+  if (click) {
+    click = rotors[2].clickPosition();
+  }
 }
+
 
 
 function encodeLetter (l)
 {
 
-  l = rotorR.passThrough(l);
-  l = rotorM.passThrough(l);
-  l = rotorL.passThrough(l);
+  l = rotors[0].passThrough(l);
+  l = rotors[1].passThrough(l);
+  l = rotors[2].passThrough(l);
   l = reflector.passThrough(l);
-  l = rotorL.passBack(l);
-  l = rotorM.passBack(l);
-  l = rotorR.passBack(l);
+  l = rotors[2].passBack(l);
+  l = rotors[1].passBack(l);
+  l = rotors[0].passBack(l);
   return l;
 
 }
@@ -141,18 +162,34 @@ function iniKeys ()
 function iniRotors ()
 {
 
-  rotorR = new Rotor({ inputDial:'EKMFLGDQVZNTOWYHXUSPAIBRCJ', outputDial:'AJDKSIRUXBLHWTMCQGZNPYFVOE', position:0 });
-  rotorM = new Rotor({ inputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', outputDial:'ESOVPZJAYQUIRHXLNFTGKDCMWB', position:0 });
-  rotorL = new Rotor({ inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW', position:0 });
-  reflector = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial:'ZYXWVUTSRQPONMLKJIHGFEDCBA' });
+  rotors[0] = new Rotor({ id:'rotorR', inputDial:'EKMFLGDQVZNTOWYHXUSPAIBRCJ', outputDial:'AJDKSIRUXBLHWTMCQGZNPYFVOE', position:5 });
+  rotors[1] = new Rotor({ id:'rotorM', inputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', outputDial:'ESOVPZJAYQUIRHXLNFTGKDCMWB', position:20 });
+  rotors[2] = new Rotor({ id:'rotorL', inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW' });
+  reflector = new Rotor({ id:'rotorR', inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial:'ZYXWVUTSRQPONMLKJIHGFEDCBA' });
 
 }
 
 
 
+function iniScreen ()
+{
+  for (var i = 0; i < rotors.length; i++) {
+    var r = rotors[i];
+    $('#' + r.id).val(r.position);
+  }
+}
 
 
 
+
+function setRotor (r)
+{
+  for (var i = 0; i < rotors.length; i++) {
+    if (rotors[i].id == r.id) {
+      rotors[i].position = r.value;
+    }
+  }
+}
 
 
 
