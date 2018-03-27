@@ -3,6 +3,7 @@ var keys = [];
 var keyDown = false;
 var rotors = [];
 var reflector = false;
+var plugBoard = [];
 
 document.addEventListener('mouseup', function (e) { resetKeyPressed(e); } );
 
@@ -102,6 +103,7 @@ function clickRotors ()
 function encodeLetter (l)
 {
 
+  l = plugBoard.passThrough(l);
   l = rotors[0].passThrough(l);
   l = rotors[1].passThrough(l);
   l = rotors[2].passThrough(l);
@@ -109,6 +111,7 @@ function encodeLetter (l)
   l = rotors[2].passBack(l);
   l = rotors[1].passBack(l);
   l = rotors[0].passBack(l);
+  l = plugBoard.passBack(l);
   return l;
 
 }
@@ -162,12 +165,46 @@ function iniKeys ()
 function iniRotors ()
 {
 
-  rotors[0] = new Rotor({ id:'rotorR', inputDial:'EKMFLGDQVZNTOWYHXUSPAIBRCJ', outputDial:'AJDKSIRUXBLHWTMCQGZNPYFVOE', position:6 });
-  rotors[1] = new Rotor({ id:'rotorM', inputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', outputDial:'ESOVPZJAYQUIRHXLNFTGKDCMWB', position:6 });
-  rotors[2] = new Rotor({ id:'rotorL', inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW', position:6 });
-  reflector = new Rotor({ id:'rotorR', inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial:'ZYXWVUTSRQPONMLKJIHGFEDCBA' });
+  rotors[0] = new Rotor({ id:'rotorR', inputDial:'EKMFLGDQVZNTOWYHXUSPAIBRCJ', outputDial:'AJDKSIRUXBLHWTMCQGZNPYFVOE', position:0 });
+  rotors[1] = new Rotor({ id:'rotorM', inputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', outputDial:'ESOVPZJAYQUIRHXLNFTGKDCMWB', position:0 });
+  rotors[2] = new Rotor({ id:'rotorL', inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW', position:0 });
+  reflector = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial:'ZYXWVUTSRQPONMLKJIHGFEDCBA' });
+  plugBoard = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' });
 
 }
+
+
+
+function plugBoardWire (letter1, letter2, operation)
+{
+
+  operation = (typeof operation === 'undefined') ? 'add' : operation;
+
+  if (operation == 'add') {
+
+    var index1 = plugBoard.inputDial.indexOf(letter1);
+    var index2 = plugBoard.inputDial.indexOf(letter2);
+    plugBoard.outputDial = setCharAt(plugBoard.outputDial, index1, letter2);
+    plugBoard.outputDial = setCharAt(plugBoard.outputDial, index2, letter1);
+
+  } else {
+
+    var index1 = plugBoard.inputDial.indexOf(letter1);
+    var index2 = plugBoard.inputDial.indexOf(letter2);
+    plugBoard.outputDial = setCharAt(plugBoard.outputDial, index1, letter1);
+    plugBoard.outputDial = setCharAt(plugBoard.outputDial, index2, letter2);
+
+  }
+
+}
+
+
+
+function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+}
+
 
 
 
