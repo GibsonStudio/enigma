@@ -4,14 +4,30 @@ var keyDown = false;
 var rotors = [];
 var reflector = false;
 var plugBoard = [];
+var plugBoardCanvas;
+var WIDTH = 768;
+var HEIGHT = 140;
+var sockets = [];
 
 document.addEventListener('mouseup', function (e) { resetKeyPressed(e); } );
 document.addEventListener('keydown', function (e) { eKeyDown(e); } );
 document.addEventListener('keyup', function (e) { resetKeyPressed(); } );
 
 
-iniKeys();
-iniRotors();
+
+
+function iniMe ()
+{
+  plugBoardCanvas = new Canvas({ id:'plugBoard', width:WIDTH, height:HEIGHT, autoDrawCanvas:false });
+  iniKeys();
+  drawKeys();
+  keysAddEvents();
+  drawLights();
+  iniRotors();
+  iniSockets();
+  drawSockets();
+  iniScreen(); // TEMPORARY FUNCTION
+}
 
 
 
@@ -27,30 +43,43 @@ function eKeyDown (e)
 }
 
 
-function writeKeys ()
+function drawKeys ()
 {
 
+  var html = '';
+
   for (var i = 0; i < keys.length; i++) {
-
-    var key = keys[i];
-    document.write(key.html());
-    key.addEvents();
-
+    html += keys[i].html();
   }
+
+  $('#keys').html(html);
 
 }
 
 
 
-function writeLights ()
+function keysAddEvents ()
 {
+  for (var i = 0; i < keys.length; i++) {
+     keys[i].addEvents();
+  }
+}
+
+
+
+function drawLights ()
+{
+
+  var html = '';
 
   for (var i = 0; i < keys.length; i++) {
 
     var key = keys[i];
-    document.write(key.getLightHTML());
+    html += key.getLightHTML();
 
   }
+
+  $('#lights').html(html);
 
 }
 
@@ -225,6 +254,7 @@ function setCharAt(str,index,chr) {
 
 
 
+// TEMPORARY FUNCTION
 function iniScreen ()
 {
   for (var i = 0; i < rotors.length; i++) {
@@ -246,6 +276,60 @@ function setRotor (r)
 }
 
 
+
+
+
+
+function iniSockets ()
+{
+  sockets = [];
+
+  // 1st row
+  sockets.push(new Socket({ letter:'Q' }));
+  sockets.push(new Socket({ letter:'W', col:1 }));
+  sockets.push(new Socket({ letter:'E', col:2 }));
+  sockets.push(new Socket({ letter:'R', col:3 }));
+  sockets.push(new Socket({ letter:'T', col:4 }));
+  sockets.push(new Socket({ letter:'Z', col:5 }));
+  sockets.push(new Socket({ letter:'U', col:6 }));
+  sockets.push(new Socket({ letter:'I', col:7 }));
+  sockets.push(new Socket({ letter:'O', col:8 }));
+
+  // 2nd row
+  sockets.push(new Socket({ letter:'A', row:1 }));
+  sockets.push(new Socket({ letter:'S', row:1, col:1 }));
+  sockets.push(new Socket({ letter:'D', row:1, col:2 }));
+  sockets.push(new Socket({ letter:'F', row:1, col:3 }));
+  sockets.push(new Socket({ letter:'G', row:1, col:4 }));
+  sockets.push(new Socket({ letter:'H', row:1, col:5 }));
+  sockets.push(new Socket({ letter:'J', row:1, col:6 }));
+  sockets.push(new Socket({ letter:'K', row:1, col:7 }));
+
+  // 3rd row
+  sockets.push(new Socket({ letter:'P', row:2 }));
+  sockets.push(new Socket({ letter:'Y', row:2, col:1 }));
+  sockets.push(new Socket({ letter:'X', row:2, col:2 }));
+  sockets.push(new Socket({ letter:'C', row:2, col:3 }));
+  sockets.push(new Socket({ letter:'V', row:2, col:4 }));
+  sockets.push(new Socket({ letter:'B', row:2, col:5 }));
+  sockets.push(new Socket({ letter:'N', row:2, col:6 }));
+  sockets.push(new Socket({ letter:'M', row:2, col:7 }));
+  sockets.push(new Socket({ letter:'L', row:2, col:8 }));
+
+}
+
+
+
+function drawSockets ()
+{
+
+  for (var i = 0; i < sockets.length; i++) {
+
+    sockets[i].draw();
+
+  }
+
+}
 
 
 

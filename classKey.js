@@ -8,9 +8,9 @@ function Key (args) {
   this.lightID = args.lightID || 'light' + this.letter;
 
   // constants
-  this.iniTop = 30;
+  this.iniTop = 10;
   this.iniLeft = 30;
-  this.rowInc = 64;
+  this.rowInc = 54;
   this.colInc = 80;
   this.rowOffset = 40;
 
