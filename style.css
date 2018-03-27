@@ -23,6 +23,12 @@ body {
 }
 
 
+#rotor1 {
+  width:40px; height:160px;
+  background-color: #df0000;
+  position: absolute; left:50px; top:20px;
+}
+
 
 #lights {
   width:768px; height:180px; position:relative;
