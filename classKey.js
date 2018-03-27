@@ -23,7 +23,7 @@ function Key (args) {
     var left = this.iniLeft + (this.col * this.colInc);
     if (this.row % 2 == 1) { left += this.rowOffset; }
 
-    var h = '<div class="key" id="' + this.id + '"';
+    var h = '<div class="key no-select" id="' + this.id + '"';
     h += ' style="top:' + top + 'px;left:' + left + 'px;">' + this.letter + '</div>';
 
     return h;
