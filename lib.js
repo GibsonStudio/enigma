@@ -3,22 +3,35 @@ var keys = [];
 var keyDown = false;
 var rotors = [];
 var reflector = false;
-var plugBoard = [];
-var plugBoardCanvas;
+var plugBoard = []; // mapping used in encryption
+var plugs = []; // array of plugs in plugBoard
+var socketsCanvas;
+var plugsCanvas;
+var workingCanvas;
 var WIDTH = 768;
 var HEIGHT = 140;
 var sockets = [];
+var mouse = {};
+mouse.x = 0;
+mouse.y = 0;
 
-document.addEventListener('mouseup', function (e) { resetKeyPressed(e); } );
+var plug = {};
+plug.socketClicked = false;
+
+document.addEventListener('mousemove', function (e) { move(e); });
+document.addEventListener('mousedown', function (e) { down(e); });
+document.addEventListener('mouseup', function (e) { mouseUp(e); } );
 document.addEventListener('keydown', function (e) { eKeyDown(e); } );
-document.addEventListener('keyup', function (e) { resetKeyPressed(); } );
+document.addEventListener('keyup', function (e) { mouseUp(); } );
 
 
 
 
 function iniMe ()
 {
-  plugBoardCanvas = new Canvas({ id:'plugBoard', width:WIDTH, height:HEIGHT, autoDrawCanvas:false });
+  socketsCanvas = new Canvas({ id:'socketsCanvas', width:WIDTH, height:HEIGHT, autoDrawCanvas:false });
+  plugsCanvas = new Canvas({ id:'plugsCanvas', width:WIDTH, height:HEIGHT, autoDrawCanvas:false });
+  workingCanvas = new Canvas({ id:'workingCanvas', width:WIDTH, height:HEIGHT, autoDrawCanvas:false });
   iniKeys();
   drawKeys();
   keysAddEvents();
@@ -27,6 +40,39 @@ function iniMe ()
   iniSockets();
   drawSockets();
   iniScreen(); // TEMPORARY FUNCTION
+}
+
+
+
+
+
+function move (e)
+{
+  mouse.x = e.pageX - $('#plugBoardContainer').offset().left;
+  mouse.y = e.pageY - $('#plugBoardContainer').offset().top;
+
+  if (plug.socketClicked) {
+    workingCanvas.clear();
+    workingCanvas.line(plug.socketClicked.x, plug.socketClicked.y, mouse.x, mouse.y, { strokeStyle:'#e2e2e2' });
+  }
+
+}
+
+
+function down (e)
+{
+
+  for (var i = 0; i < sockets.length; i++) {
+
+    var d = Math.sqrt( Math.pow( (mouse.x - sockets[i].x), 2) + Math.pow( (mouse.y - sockets[i].y), 2) );
+
+    if (d <= sockets[i].size) {
+      plug.socketClicked = sockets[i];
+      break;
+    }
+
+  }
+
 }
 
 
@@ -98,14 +144,97 @@ function keyPressed (keyID)
 
 
 
-function resetKeyPressed ()
+function mouseUp ()
 {
+
+  if (plug.socketClicked) {
+
+    workingCanvas.clear();
+
+    var socketDropped = false;
+
+    for (var i = 0; i < sockets.length; i++) {
+
+      var d = Math.sqrt( Math.pow( (mouse.x - sockets[i].x), 2) + Math.pow( (mouse.y - sockets[i].y), 2) );
+
+      if (d <= sockets[i].size) {
+
+        if (sockets[i] != plug.socketClicked) {
+          //plugsCanvas.line(plug.socketClicked.x, plug.socketClicked.y, sockets[i].x, sockets[i].y, { lineWidth:2, strokeStyle:'#DF0000' } );
+          //addPlug(plug.socketClicked, sockets[i]);
+          socketDropped = sockets[i];
+        }
+
+        break;
+      }
+
+    }
+
+    if (socketDropped) {
+      addPlug(plug.socketClicked, socketDropped);
+    } else {
+      removePlug(plug.socketClicked.letter);
+    }
+
+    plug.socketClicked = false;
+
+
+  }
+
+
+
   if (keyDown) {
     $('.light').removeClass('lightON');
     $('.key').removeClass('keyDown');
     keyDown = false;
   }
 }
+
+
+
+
+function addPlug (socket1, socket2)
+{
+  removePlug(socket1.letter);
+  removePlug(socket2.letter);
+  plugBoardWire(socket1.letter, socket2.letter, 'add');
+  plugs.push([socket1, socket2]);
+  drawPlugs();
+}
+
+
+function removePlug (letter)
+{
+
+  for (var i = 0; i < plugs.length; i++) {
+    if (plugs[i][0].letter == letter || plugs[i][1].letter == letter) {
+      plugBoardWire(plugs[i][0].letter, plugs[0][1].letter, 'remove');
+      plugs.splice(i,1);
+      break;
+    }
+  }
+
+  drawPlugs();
+
+}
+
+
+
+function drawPlugs ()
+{
+
+  plugsCanvas.clear();
+
+  for (var i = 0; i < plugs.length; i++) {
+    var socket1 = plugs[i][0];
+    var socket2 = plugs[i][1];
+    plugsCanvas.circle(socket1.x, socket1.y, 10, { fillStyle:'#df0000' });
+    plugsCanvas.circle(socket2.x, socket2.y, 10, { fillStyle:'#df0000' });
+    plugsCanvas.line(socket1.x, socket1.y, socket2.x, socket2.y, { lineWidth:4, strokeStyle:'#DF0000' } );
+  }
+
+}
+
 
 
 

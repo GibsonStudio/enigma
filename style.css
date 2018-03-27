@@ -19,14 +19,14 @@ body {
 
 #rotors {
   width:768px; height:240px; position:relative;
-  background-color:#00DF00;
+  background-color:#333333;
 }
 
 
 
 #lights {
   width:768px; height:180px; position:relative;
-  background-color:#df0000;
+  background-color:#333333;
 }
 
 
@@ -46,7 +46,7 @@ body {
 
 #keys {
   width:768px; height:180px; position:relative;
-  background-color:#666666;
+  background-color:#121212;
 }
 
 .key {
@@ -63,6 +63,9 @@ body {
 }
 
 
-#plugBoard {
-  background-color:#4863a0;
-}
+
+
+#plugBoardContainer { background-color:#222222; position: relative; width:768px; height:150px; }
+#socketsCanvas { position:absolute; }
+#plugsCanvas { position:absolute; }
+#workingCanvas { position:absolute; }

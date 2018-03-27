@@ -10,6 +10,7 @@ function Socket (args) {
   this.iniY = 34;
   this.rowInc = 44;
   this.colInc = 84;
+  this.size = 10;
 
   // calculated values
   this.x = this.iniX + (this.col * this.colInc);
@@ -22,10 +23,10 @@ function Socket (args) {
 
   this.draw = function () {
 
-    var c = plugBoardCanvas;
+    var c = socketsCanvas;
 
     c.text(this.x, this.y - 14, this.letter, { fontSize:14, fillStyle:'#FFFFFF' });
-    c.circle(this.x, this.y, 10, { lineWidth:2, strokeStyle:'#d2d2d2', fillStyle:'#333333' });
+    c.circle(this.x, this.y, this.size, { lineWidth:2, strokeStyle:'#d2d2d2', fillStyle:'#333333' });
 
   }
 
