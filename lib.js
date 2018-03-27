@@ -407,6 +407,31 @@ function setRotor (r)
 
 
 
+function setDial (v)
+{
+  var base = -578;
+  var max = 74;
+  var div = (base - max) / 25;
+  var top = base - (v * div);
+  $('#rotor-dial-1').css({ top: top + 'px' });
+
+}
+
+
+
+function rotorClicked (e)
+{
+  var y = e.pageY - $('#rotor-1-container').offset().top;
+  if (y >= 70) {
+    rotors[2].position = rotors[2].position + 1;
+  } else {
+    rotors[2].position = rotors[2].position - 1;
+  }
+  setDial(rotors[2].position);
+}
+
+
+
 
 
 function iniSockets ()
