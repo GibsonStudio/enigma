@@ -228,9 +228,9 @@ function drawPlugs ()
   for (var i = 0; i < plugs.length; i++) {
     var socket1 = plugs[i][0];
     var socket2 = plugs[i][1];
-    plugsCanvas.circle(socket1.x, socket1.y, 10, { fillStyle:'#df0000' });
-    plugsCanvas.circle(socket2.x, socket2.y, 10, { fillStyle:'#df0000' });
-    plugsCanvas.line(socket1.x, socket1.y, socket2.x, socket2.y, { lineWidth:4, strokeStyle:'#DF0000' } );
+    plugsCanvas.line(socket1.x, socket1.y, socket2.x, socket2.y, { lineWidth:4, strokeStyle:'#aaaaaa' } );
+    plugsCanvas.circle(socket1.x, socket1.y, 10, { fillStyle:'#333333' });
+    plugsCanvas.circle(socket2.x, socket2.y, 10, { fillStyle:'#333333' });    
   }
 
 }

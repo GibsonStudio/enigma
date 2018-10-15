@@ -9,9 +9,9 @@ function Key (args) {
 
   // constants
   this.iniTop = 10;
-  this.iniLeft = 30;
-  this.rowInc = 54;
-  this.colInc = 80;
+  this.iniLeft = 20; //30
+  this.rowInc = 55; //54
+  this.colInc = 83; //80
   this.rowOffset = 40;
 
 
