@@ -1,7 +1,7 @@
 function Rotor (args) {
 
   var args = args || {};
-  this.id = args.id || 'rotor';
+  this.id = args.id || 'rotor-' + Math.floor(Math.random() * 100000);
   this.inputDial = args.inputDial || '';
   this.outputDial = args.outputDial || '';
   this.position = args.position || 0;
@@ -26,20 +26,6 @@ function Rotor (args) {
     return this.inputDial.charAt((index) % this.inputDial.length);
 
   }
-
-
-
-  this.clickPosition = function () {
-    this.position++;
-    if (this.position >= this.inputDial.length) {
-      this.position = 0;
-      $('#' + this.id).val(this.position);
-      return true;
-    }
-    $('#' + this.id).val(this.position);
-    return false;
-  }
-
 
 
   this.getHTML = function (left) {
@@ -70,12 +56,10 @@ function Rotor (args) {
 
 
   this.clickMeBack = function () {
-    console.log("BACK");
+    this.position--;
+    if (this.position < 0) { this.position = this.letters.length - 1; }
+    this.updateLetter();
   }
-
-
-
-
 
 
 }

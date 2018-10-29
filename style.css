@@ -1,101 +1,44 @@
-body {
-  margin:0; padding:0;
-  font-family: "Open Sans";
-}
-.no-select {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+body { margin:0; padding:0; font-family: "Open Sans"; }
+.no-select { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
+@font-face { font-family: typewriter; src: url(carbon.ttf); }
+@font-face { font-family: monster; src: url(Montserrat-Bold.ttf); }
 
-#page {
-  width:768px; height:1024px; margin:auto; border:1px solid #e2e2e2; position:relative;
-}
+#page { width:768px; height:950px; margin:auto; border:1px solid #e2e2e2; position:relative; }
 
+#rotors { width:768px; height:240px; position:relative; background-image:url('images/rotors-bg.png'); }
+#rotors-container { position:absolute; left:200px; top:20px; width:400px; height:200px; }
+.rotor { width:80px; height:200px; position: absolute; top:0px; left:0px; overflow:hidden; background-image:url('images/rotor_face.png'); }
+.rotor-button-top { position:absolute; left:0px; top:0px; width:80px; height:100px; }
+.rotor-button-bottom { position:absolute; left:0px; top:100px; width:80px; height:100px; }
+.rotor-letter { position:absolute; left:25px; top:88px; font-size:18px; font-weight:bold; }
 
-#rotors {
-  width:768px; height:240px; position:relative;
-  background-image:url('images/rotors-bg.png');
-}
-
-
-#rotors-container {
-  position:absolute; left:200px; top:20px;
-  width:400px; height:200px;
-}
-
-
-.rotor {
-  width:80px; height:200px;
-  position: absolute; top:0px; overflow:hidden;
-  background-image:url('images/rotor_face.png');
-}
-
-.rotor-button-top {
-  position:absolute; left:0px; top:0px;
-  width:80px; height:100px;
-}
-
-.rotor-button-bottom {
-  position:absolute; left:0px; top:100px;
-  width:80px; height:100px;
-}
-
-
-.rotor-letter {
-  position:absolute; left:25px; top:88px;
-  font-size:18px; font-weight:bold;
-}
-
-
-#lights {
-  width:768px; height:180px; position:relative;
-  background-color:#333333; background-image:url('images/lights-bg.png');
-}
-
-
+#lights { position:absolute; left:0px; top:240px; width:768px; height:180px; background-image:url('images/lights-bg.png'); }
 .light {
-  font-size:28px; font-weight:bold; text-align: center;
-  position:absolute; padding-top:2px;
+  font-family:monster; font-size:28px; text-align: center;
+  position:absolute; padding-top:6px;
   width:50px; height:50px; box-sizing: border-box;
   background-image: url('images/light-bg.png');
-  color:#666666; /* border:1px solid #000000; border-radius: 25px; */
+  color:#666666;
 }
+.lightON { color: #ffffff; }
 
-
-.lightON {
-  color: #ffffff;
-}
-
-
-
-#keys {
-  width:768px; height:180px; position:relative;
-  background-color:#050505;
-}
-
+#keys { position:absolute; left:0px; top:420px; width:768px; height:180px; background-color:#050505; }
 .key {
-  font-size:28px; font-weight:bold; text-align: center; padding-top:4px;
-  position:absolute;
-  width:50px; height:50px; box-sizing: border-box; cursor:pointer;
+  font-family:monster; font-size:28px; text-align: center; padding-top:8px;
+  position:absolute; width:50px; height:50px; box-sizing: border-box; cursor:pointer;
   background-image:url('images/key-bg.png'); color:#ffffff;
-  /* border:4px solid #d2d2d2; border-radius: 25px; */
+}
+.keyDown { width:40px; height:40px; padding-top:6px; font-size:20px; background-image:url('images/key-pressed-bg.png'); }
+
+#output {
+  position:absolute; left:0px; top:750px; width:768px; height:200px; box-sizing: border-box;
+  padding:20px; overflow-y: auto;
+  background-image: url('images/output_bg.png');
+  font-size:20px; font-family:typewriter;
 }
 
-
-.keyDown {
-  width:40px; height:40px; padding-top:6px;
-  font-size:20px; background-image:url('images/key-pressed-bg.png');
-}
-
-
-
-
-#plugBoardContainer { background-image:url('images/plugboard-bg.png'); position: relative; width:768px; height:150px; }
+#plugBoardContainer { position:absolute; left:0px; top:600px; background-image:url('images/plugboard-bg.png'); width:768px; height:150px; }
 #socketsCanvas { position:absolute; }
 #plugsCanvas { position:absolute; }
 #workingCanvas { position:absolute; }

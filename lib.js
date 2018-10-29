@@ -40,7 +40,6 @@ function iniMe ()
   drawRotors();
   iniSockets();
   drawSockets();
-  iniScreen(); // TEMPORARY FUNCTION
 }
 
 
@@ -137,7 +136,6 @@ function drawLights ()
 function keyPressed (keyID)
 {
   keyDown = getKeyById(keyID);
-  //TODO - change to rotors[0].clickMe()?;
   clickRotors();
   var outputLetter = encodeLetter(keyDown.letter);
   writeOutput(outputLetter);
@@ -163,8 +161,6 @@ function mouseUp ()
       if (d <= sockets[i].size) {
 
         if (sockets[i] != plug.socketClicked) {
-          //plugsCanvas.line(plug.socketClicked.x, plug.socketClicked.y, sockets[i].x, sockets[i].y, { lineWidth:2, strokeStyle:'#DF0000' } );
-          //addPlug(plug.socketClicked, sockets[i]);
           socketDropped = sockets[i];
         }
 
@@ -278,21 +274,6 @@ function clickRotors ()
 }
 
 
-function clickRotorsOLD ()
-{
-  var click = rotors[0].clickMe();
-  if (click) {
-    click = rotors[1].clickMe();
-  }
-  if (click) {
-    click = rotors[2].clickMe();
-  }
-  if (click) {
-    click = rotors[3].clickMe();
-  }
-}
-
-
 
 
 function encodeLetter (l)
@@ -362,10 +343,10 @@ function iniKeys ()
 function iniRotors ()
 {
 
-  rotors[0] = new Rotor({ id:'rotor3', inputDial:'EKMFLGDQVZNTOWYHXUSPAIBRCJ', outputDial:'AJDKSIRUXBLHWTMCQGZNPYFVOE', position:23 });
-  rotors[1] = new Rotor({ id:'rotor2', inputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', outputDial:'ESOVPZJAYQUIRHXLNFTGKDCMWB', position:25 });
-  rotors[2] = new Rotor({ id:'rotor1', inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW', position:1 });
-  rotors[3] = new Rotor({ id:'rotor0', inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', position:2 });
+  rotors[0] = new Rotor({ inputDial:'EKMFLGDQVZNTOWYHXUSPAIBRCJ', outputDial:'AJDKSIRUXBLHWTMCQGZNPYFVOE', position:23 });
+  rotors[1] = new Rotor({ inputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', outputDial:'ESOVPZJAYQUIRHXLNFTGKDCMWB', position:25 });
+  rotors[2] = new Rotor({ inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW', position:1 });
+  rotors[3] = new Rotor({ inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', position:2 });
   reflector = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial:'ZYXWVUTSRQPONMLKJIHGFEDCBA' });
   plugBoard = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' });
 
@@ -418,57 +399,6 @@ function setCharAt(str,index,chr) {
     return str.substr(0,index) + chr + str.substr(index+1);
 }
 
-
-
-
-// TEMPORARY FUNCTION
-function iniScreen ()
-{
-  /*for (var i = 0; i < rotors.length; i++) {
-    var r = rotors[i];
-    $('#' + r.id).val(r.position);
-  }*/
-}
-
-
-
-/*
-function setRotor (r)
-{
-  for (var i = 0; i < rotors.length; i++) {
-    if (rotors[i].id == r.id) {
-      rotors[i].position = parseInt(r.value);
-    }
-  }
-}
-*/
-
-
-/*
-function setDial (v)
-{
-  var base = -578;
-  var max = 74;
-  var div = (base - max) / 25;
-  var top = base - (v * div);
-  $('#rotor-dial-1').css({ top: top + 'px' });
-
-}
-*/
-
-
-/*
-function rotorClicked (e)
-{
-  var y = e.pageY - $('#rotor-1-container').offset().top;
-  if (y >= 70) {
-    rotors[2].position = rotors[2].position + 1;
-  } else {
-    rotors[2].position = rotors[2].position - 1;
-  }
-  setDial(rotors[2].position);
-}
-*/
 
 
 
