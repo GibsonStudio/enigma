@@ -1,6 +1,7 @@
 
 var keys = [];
 var keyDown = false;
+var keyIsDown = false;
 var rotors = [];
 var reflector = false;
 var plugBoard = []; // mapping used in encryption
@@ -81,6 +82,7 @@ function down (e)
 
 function eKeyDown (e)
 {
+  if (keyIsDown) { return false; }
   var myKey = e.key.toUpperCase();
   var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   if (alphabet.indexOf(myKey) >= 0) {
@@ -99,7 +101,7 @@ function deleteChar ()
   // delete text
   var h = $('#output').html();
   if (h.length <= 0) { return false; }
-  
+
   h = h.slice(0, -1).trim();
   $('#output').html(h);
 
@@ -161,6 +163,7 @@ function drawLights ()
 
 function keyPressed (keyID)
 {
+  keyIsDown = true;
   keyDown = getKeyById(keyID);
   clickRotors();
   var outputLetter = encodeLetter(keyDown.letter);
@@ -213,6 +216,9 @@ function mouseUp ()
     $('.key').removeClass('keyDown');
     keyDown = false;
   }
+
+  keyIsDown = false;
+
 }
 
 
