@@ -57,8 +57,9 @@ function Rotor (args) {
 
   this.clickMeBack = function () {
     this.position--;
-    if (this.position < 0) { this.position = this.letters.length - 1; }
+    if (this.position < 0) { this.position = this.letters.length - 1; this.updateLetter(); return true; }
     this.updateLetter();
+    return false;
   }
 
 

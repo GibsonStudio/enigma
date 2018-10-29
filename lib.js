@@ -86,8 +86,34 @@ function eKeyDown (e)
   if (alphabet.indexOf(myKey) >= 0) {
     var id = 'key' + myKey;
     keyPressed(id);
+  } else if (e.key == "Backspace") {
+    deleteChar();
   }
+
 }
+
+
+function deleteChar ()
+{
+
+  // delete text
+  var h = $('#output').html();
+  if (h.length <= 0) { return false; }
+  
+  h = h.slice(0, -1).trim();
+  $('#output').html(h);
+
+  // wind rotors back
+  var click = true;
+  for (var i = 0; i < rotors.length; i++) {
+    click = rotors[i].clickMeBack();
+    if (!click) { break; }
+  }
+
+
+}
+
+
 
 
 function drawKeys ()
