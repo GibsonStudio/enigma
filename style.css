@@ -19,23 +19,36 @@ body {
 
 #rotors {
   width:768px; height:240px; position:relative;
-  background-color:#393939;
+  background-image:url('images/rotors-bg.png');
+}
+
+
+#rotors-container {
+  position:absolute; left:200px; top:20px;
+  width:400px; height:200px;
 }
 
 
 .rotor {
-  width:40px; height:140px;
-  position: absolute; overflow:hidden;
+  width:80px; height:200px;
+  position: absolute; top:0px; overflow:hidden;
+  background-image:url('images/rotor_face.png');
 }
 
-.rotor-face {
-  position:absolute; width:40px; height:140px;
-  background-image:url(images/rotor_face.png);
+.rotor-button-top {
+  position:absolute; left:0px; top:0px;
+  width:80px; height:100px;
 }
 
-.rotor-dial {
-  position:absolute; width:40px; height:778px;
-  background-image:url(images/rotor.png);
+.rotor-button-bottom {
+  position:absolute; left:0px; top:100px;
+  width:80px; height:100px;
+}
+
+
+.rotor-letter {
+  position:absolute; left:25px; top:88px;
+  font-size:18px; font-weight:bold;
 }
 
 

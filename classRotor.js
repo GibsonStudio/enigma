@@ -6,6 +6,8 @@ function Rotor (args) {
   this.outputDial = args.outputDial || '';
   this.position = args.position || 0;
   this.offset = args.offset || 0;
+  this.left = args.left || 0;
+  this.letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
   this.passThrough = function (letter) {
@@ -37,6 +39,43 @@ function Rotor (args) {
     $('#' + this.id).val(this.position);
     return false;
   }
+
+
+
+  this.getHTML = function (left) {
+
+    var letter = this.letters.charAt(this.position);
+    var left = left || 0;
+    var h = '<div id="' + this.id + '" class="rotor no-select" style="left:' + left + 'px;">';
+    h += '<div id="' + this.id + '-letter" class="rotor-letter">' + letter + '</div>';
+    h += '<div class="rotor-button-top" onClick="rotorClicked(\'' + this.id + '\', false)"></div>';
+    h += '<div class="rotor-button-bottom" onClick="rotorClicked(\'' + this.id + '\', true)"></div>';
+    h += '</div>';
+    return h;
+
+  }
+
+
+  this.updateLetter = function () {
+    $('#' + this.id + '-letter').html(this.letters.charAt(this.position));
+  }
+
+
+  this.clickMe = function () {
+    this.position++;
+    if (this.position >= this.inputDial.length) { this.position = 0; this.updateLetter(); return true; }
+    this.updateLetter();
+    return false;
+  }
+
+
+  this.clickMeBack = function () {
+    console.log("BACK");
+  }
+
+
+
+
 
 
 }

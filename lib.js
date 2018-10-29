@@ -37,10 +37,12 @@ function iniMe ()
   keysAddEvents();
   drawLights();
   iniRotors();
+  drawRotors();
   iniSockets();
   drawSockets();
   iniScreen(); // TEMPORARY FUNCTION
 }
+
 
 
 
@@ -135,6 +137,7 @@ function drawLights ()
 function keyPressed (keyID)
 {
   keyDown = getKeyById(keyID);
+  //TODO - change to rotors[0].clickMe()?;
   clickRotors();
   var outputLetter = encodeLetter(keyDown.letter);
   writeOutput(outputLetter);
@@ -230,7 +233,7 @@ function drawPlugs ()
     var socket2 = plugs[i][1];
     plugsCanvas.line(socket1.x, socket1.y, socket2.x, socket2.y, { lineWidth:4, strokeStyle:'#aaaaaa' } );
     plugsCanvas.circle(socket1.x, socket1.y, 10, { fillStyle:'#333333' });
-    plugsCanvas.circle(socket2.x, socket2.y, 10, { fillStyle:'#333333' });    
+    plugsCanvas.circle(socket2.x, socket2.y, 10, { fillStyle:'#333333' });
   }
 
 }
@@ -264,14 +267,31 @@ function writeOutput (l)
 
 function clickRotors ()
 {
-  var click = rotors[0].clickPosition();
+
+  var click = true;
+
+  for (var i = 0; i < rotors.length; i++) {
+    click = rotors[i].clickMe();
+    if (!click) { break; }
+  }
+
+}
+
+
+function clickRotorsOLD ()
+{
+  var click = rotors[0].clickMe();
   if (click) {
-    click = rotors[1].clickPosition();
+    click = rotors[1].clickMe();
   }
   if (click) {
-    click = rotors[2].clickPosition();
+    click = rotors[2].clickMe();
+  }
+  if (click) {
+    click = rotors[3].clickMe();
   }
 }
+
 
 
 
@@ -279,19 +299,21 @@ function encodeLetter (l)
 {
 
   l = plugBoard.passThrough(l);
-  l = rotors[0].passThrough(l);
-  l = rotors[1].passThrough(l);
-  l = rotors[2].passThrough(l);
+
+  for (var i = 0; i < rotors.length; i++) {
+    l = rotors[i].passThrough(l);
+  }
+
   l = reflector.passThrough(l);
-  l = rotors[2].passBack(l);
-  l = rotors[1].passBack(l);
-  l = rotors[0].passBack(l);
+
+  for (var i = rotors.length - 1; i >= 0; i--) {
+    l = rotors[i].passBack(l);
+  }
+
   l = plugBoard.passBack(l);
   return l;
 
 }
-
-
 
 
 
@@ -340,11 +362,27 @@ function iniKeys ()
 function iniRotors ()
 {
 
-  rotors[0] = new Rotor({ id:'rotorR', inputDial:'EKMFLGDQVZNTOWYHXUSPAIBRCJ', outputDial:'AJDKSIRUXBLHWTMCQGZNPYFVOE', position:0 });
-  rotors[1] = new Rotor({ id:'rotorM', inputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', outputDial:'ESOVPZJAYQUIRHXLNFTGKDCMWB', position:0 });
-  rotors[2] = new Rotor({ id:'rotorL', inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW', position:0 });
+  rotors[0] = new Rotor({ id:'rotor3', inputDial:'EKMFLGDQVZNTOWYHXUSPAIBRCJ', outputDial:'AJDKSIRUXBLHWTMCQGZNPYFVOE', position:23 });
+  rotors[1] = new Rotor({ id:'rotor2', inputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', outputDial:'ESOVPZJAYQUIRHXLNFTGKDCMWB', position:25 });
+  rotors[2] = new Rotor({ id:'rotor1', inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW', position:1 });
+  rotors[3] = new Rotor({ id:'rotor0', inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', position:2 });
   reflector = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial:'ZYXWVUTSRQPONMLKJIHGFEDCBA' });
   plugBoard = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' });
+
+}
+
+
+function drawRotors ()
+{
+
+  var html = '';
+
+  for (var i = 0; i < rotors.length; i++) {
+    var left = ((rotors.length - 1) - i) * 120;
+    html += rotors[i].getHTML(left);
+  }
+
+  $('#rotors-container').html(html);
 
 }
 
@@ -386,15 +424,15 @@ function setCharAt(str,index,chr) {
 // TEMPORARY FUNCTION
 function iniScreen ()
 {
-  for (var i = 0; i < rotors.length; i++) {
+  /*for (var i = 0; i < rotors.length; i++) {
     var r = rotors[i];
     $('#' + r.id).val(r.position);
-  }
+  }*/
 }
 
 
 
-
+/*
 function setRotor (r)
 {
   for (var i = 0; i < rotors.length; i++) {
@@ -403,10 +441,10 @@ function setRotor (r)
     }
   }
 }
+*/
 
 
-
-
+/*
 function setDial (v)
 {
   var base = -578;
@@ -416,9 +454,10 @@ function setDial (v)
   $('#rotor-dial-1').css({ top: top + 'px' });
 
 }
+*/
 
 
-
+/*
 function rotorClicked (e)
 {
   var y = e.pageY - $('#rotor-1-container').offset().top;
@@ -429,8 +468,25 @@ function rotorClicked (e)
   }
   setDial(rotors[2].position);
 }
+*/
 
 
+
+function rotorClicked (id, clickBack)
+{
+
+  for (var i = 0; i < rotors.length; i++) {
+    if (rotors[i].id == id) {
+      if (clickBack) {
+        rotors[i].clickMeBack();
+      } else {
+        rotors[i].clickMe();
+      }
+      break;
+    }
+  }
+
+}
 
 
 
