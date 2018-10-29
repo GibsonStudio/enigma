@@ -1,10 +1,10 @@
-body { margin:0; padding:0; font-family: "Open Sans"; }
+body { margin:0; padding:0; font-family: "Open Sans"; background-color:#050505; }
 .no-select { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
 @font-face { font-family: typewriter; src: url(carbon.ttf); }
 @font-face { font-family: monster; src: url(Montserrat-Bold.ttf); }
 
-#page { width:768px; height:950px; margin:auto; border:1px solid #e2e2e2; position:relative; }
+#page { width:768px; height:950px; margin:auto; position:relative; }
 
 #rotors { width:768px; height:240px; position:relative; background-image:url('images/rotors-bg.png'); }
 #rotors-container { position:absolute; left:200px; top:20px; width:400px; height:200px; }
