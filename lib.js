@@ -10,7 +10,7 @@ var socketsCanvas;
 var plugsCanvas;
 var workingCanvas;
 var WIDTH = 768;
-var HEIGHT = 140;
+var HEIGHT = 150;
 var sockets = [];
 var mouse = {};
 mouse.x = 0;
@@ -158,6 +158,18 @@ function drawLights ()
 
 }
 
+
+
+
+function keyPressedTEST (keyID)
+{
+  keyIsDown = true;
+  keyDown = getKeyById(keyID);
+  var outputLetter = encodeLetter(keyDown.letter);
+  writeOutput(outputLetter);
+  $('#light' + outputLetter).addClass('lightON');
+  $('#' + keyID).addClass('keyDown');
+}
 
 
 
@@ -371,6 +383,29 @@ function iniKeys ()
 
 
 
+function runTest ()
+{
+
+  var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var errors = [];
+
+  for (var i = 0; i < letters.length; i++) {
+    var l = letters.charAt(i);
+    var e = encodeLetter(l);
+    var d = encodeLetter(e);
+    if (l != d) {
+      errors.push(l);
+    }
+  }
+
+  if (errors.length > 0) {
+    console.dir(errors);
+  } else {
+    console.log("No errors");
+  }
+
+}
+
 
 function iniRotors ()
 {
@@ -380,7 +415,7 @@ function iniRotors ()
   rotors[2] = new Rotor({ inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'JPGVOUMFYQBENHZRDKASXLICTW', position:1 });
   rotors[3] = new Rotor({ inputDial:'VZBRGITYUPSDNHLXAWMJQOFECK', outputDial:'BDFHJLCPRTXVZNYEIWGAKMUSQO', position:2 });
   reflector = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial:'ZYXWVUTSRQPONMLKJIHGFEDCBA' });
-  plugBoard = new Rotor({ inputDial:'ABCDEFGHIJKLMNOPQRSTUVWXYZ', outputDial: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' });
+  plugBoard = new Plugboard();
 
 }
 
@@ -400,8 +435,26 @@ function drawRotors ()
 }
 
 
+function plugBoardWire (l1, l2, operation)
+{
 
-function plugBoardWire (letter1, letter2, operation)
+  operation = (typeof operation === 'undefined') ? 'add' : operation;
+
+  if (operation == 'add') {
+
+    plugBoard.connectSockets(l1, l2);
+
+  } else {
+
+    plugBoard.removeSocket(l1);
+    plugBoard.removeSocket(l2);
+
+  }
+
+}
+
+/*
+function plugBoardWireOLD (letter1, letter2, operation)
 {
 
   operation = (typeof operation === 'undefined') ? 'add' : operation;
@@ -430,7 +483,7 @@ function setCharAt(str,index,chr) {
     if(index > str.length-1) return str;
     return str.substr(0,index) + chr + str.substr(index+1);
 }
-
+*/
 
 
 
